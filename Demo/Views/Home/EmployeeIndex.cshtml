@@ -1,0 +1,68 @@
+﻿@model Demo.Controllers.EmployeeIndexViewModel
+@using Demo.Controllers
+@{
+    ViewBag.Title = "Demo";
+}
+
+<h2>Demo</h2>
+@using (Html.BeginForm())
+{
+<div class="form-group">
+    @Html.LabelFor(Model => Model.Q_EmployeeID)
+    @Html.TextBoxFor(Model => Model.Q_EmployeeID, null, new { @class = "form-control form-control-sm ml-3 w-75" })
+
+</div>
+<div class="form-group">
+    @Html.LabelFor(Model => Model.Q_Address)
+    @Html.TextBoxFor(Model => Model.Q_Address, null, new { @class = "form-control form-control-sm ml-3 w-75" })
+
+</div>
+            
+
+            <button type="submit" name="Btn" id="EIPSeachBtn" value="Search" class="btn btn-search">查詢</button>
+}
+@Html.ActionLink("新增", "EmployeeEdit", new { }, new { @class = "btn pull-right" })
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>功能</th>
+
+                <th>@Html.DisplayNameFor(o => o.ListData[0].EmployeeID)</th>
+                <th>@Html.DisplayNameFor(o => o.ListData[0].Name)</th>
+                <th>@Html.DisplayNameFor(o => o.ListData[0].Address)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (EmployeeEditViewModel item in Model.ListData)
+            {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col">
+                           
+                        </div>
+                        <div class="col">
+                            @using (Html.BeginForm("Delete", "Home", new { EmployeeID = item.EmployeeID }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="button" class="btn btn-success"
+                                        onclick="window.location = '@Url.Action("EmployeeEdit", new { ID = item.EmployeeID })'">
+                                    <i class="fas fa-edit"></i>修改
+                                </button>
+                                <button type="submit" class="btn btn-search" value="刪除" title="刪除">刪除</button>
+                            }
+                        </div>
+                    </div>
+                    
+                </td>
+                <td>@item.EmployeeID</td>
+                <td>@item.Name</td>
+                <td>@item.Address</td>
+            </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>
